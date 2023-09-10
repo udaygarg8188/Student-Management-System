@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	   >
+<head>
+<meta charset="ISO-8859-1">
+<title>Student Management System</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+	
+	<link href="https://kit-pro.fontawesome.com/releases/latest/css/pro.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+	
+	<style>
+ 
+  .center-heading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 40%;
+     
+  }
+  .col1-lg-3{
+	  margin-left: 90%;
+	  
+  }
+  .logout-btn {
+    margin-left: 700px; 
+  }
+  .fa-solid fa-user-tie{
+	  margin-left: 800px;
+  }
+  .popover-content {
+        max-height: 300px; 
+    overflow-y: auto;
+    padding: 10px;
+    }
+    body{
+		background: url(https://img.freepik.com/free-vector/focused-tiny-people-reading-books_74855-5836.jpg?w=826&t=st=1693303837~exp=1693304437~hmac=baee49a11c215539c25443b578656e2823ea7c1d082d45500d444d5672ef1c8c);
+  background-size: cover;
+  background-repeat: no-repeat;
+	}
+p{
+	text-decoration-color: black;
+}	
+</style>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  
+  <a class="navbar-brand" href="#">Student Management System</a>
+
+  <!-- Toggler/collapsibe Button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+  	  
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar links -->
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/students}">Student Management</a>
+      </li>
+      <li class="nav-item">
+		  
+        <a th:href="@{/students/login}" class="btn btn-light btn-sm mb-2 logout-btn">Logout</a>
+      </li>
+      
+      <li class="nav-item">
+        <a href="#" class="ml-4" tabindex="0" role="button" data-toggle="popover" data-placement="bottom"
+   data-trigger="focus" data-html="true"
+   title="User Info"
+   data-content="">
+   <i class="fa-solid fa-user-tie"></i>
+</a>
+        <!--<p th:text="${userlogin}"></p>-->
+      </li>
+    </ul>
+    
+  </div>
+</nav>
+
+	<div class ="container">
+		<div class = "row">
+			 <h1 class="center-heading text-center">List Students</h1>
+		</div>
+		
+		<div class="row">
+    <div class="col-lg-3 mx-auto">
+        <a th:href="@{/students/new}" class="btn btn-dark btn-sm mb-3">Add Student</a>
+    </div>
+    <div class="col1-lg-3 mx-auto">
+        <form th:action="@{/students/upload/bulk}" method="post" enctype="multipart/form-data">
+			<input type="file" name="file" accept=".xlsx" class="btn btn btn-sm mb-3">
+			<button type="submit" class="btn btn-dark btn-sm mb-3 ">Bulk Add</button>
+            
+            
+        </form>
+    </div>
+</div>
+
+</div>
+
+		<table class = "table table-striped table-bordered">
+			<thead class = "table-dark">
+				<tr>
+					<th> Student First Name</th>
+					<th> Student Last Name</th>
+					<th> Student Email </th>
+					<th> Actions </th>
+					<th>File</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<tr th:each = "student: ${students}">
+					 <td th:text="${student.firstName}"></td>
+					 <td th:text = "${student.lastName}"></td>
+					 <td th:text = "${student.email}"></td>
+					<td>
+<a th:href="@{/students/edit/{id}(id=${student.id})}" class="btn btn-primary">Update</a>
+<a th:href="@{/students/{id}(id=${student.id})}" class="btn btn-danger">Delete</a>
+<a th:href="@{/students/upload/{id}(id=${student.id})}" class="btn btn-warning">Upload</a>
+<!--<a th:if="${#authorization.expression('isAuthenticated()')}" th:href="@{/students/edit/{id}(id=${student.id})}" class="btn btn-primary">Update</a>
+ <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" th:href="@{/students/{id}(id=${student.id})}" class="btn btn-danger">Delete</a>
+  <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" th:href="@{/students/upload/{id}(id=${student.id})}" class="btn btn-warning">Upload</a>-->
+
+						 
+					</td>
+					<td><a th:if="${student.uploadData != null}" th:href="@{/students/download/{id}(id=${student.id})}" target="_blank">Download</a>
+        <span th:unless="${student.uploadData != null}">No File</span></td>
+				</tr>
+			</tbody>
+		
+		</table>
+		
+		
+
+	<script src="https://kit.fontawesome.com/d408c03c45.js" crossorigin="anonymous"></script>
+	<script th:inline="javascript">
+    $(function () {
+        var userLogin = /*[[${session.userlogin}]]*/ '';
+        var userEmail = /*[[${session.useremail}]]*/ '';  
+
+        var content = '<strong>Login:</strong> ' + userLogin + '<br><strong>Email:</strong> ' + userEmail;
+        $('[data-toggle="popover"]').attr('data-content', content);
+
+        $('[data-toggle="popover"]').popover();
+    });
+</script>
+</body>
+</html>

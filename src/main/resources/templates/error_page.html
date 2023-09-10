@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmls:th="https://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>error_page</title>
+	<style>
+		body{
+  background: white;
+  padding-top: 35vh;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30%;
+}
+
+.transition-btn{
+  margin:25px;
+  width: 200px;
+  height: 100px;
+  font-size: 1.5rem;
+  border: 3px solid lightcoral;
+  border-radius: 35px 0 35px 0px;
+  background: transparent;
+  color: lightcoral;
+  font-weight: bold;
+  padding: 15px 25px;
+  transition: border-radius 1.5s, border 1.5s, color 1.5s;
+  
+}
+
+.transition-btn:hover{
+  cursor: pointer;
+  border-radius: 0 35px 0 35px;
+  border: 3px solid darkcyan;
+  color: darkcyan;
+}
+
+.sharp-btn{
+  margin:25px;
+  width: 200px;
+  height: 100px;
+  font-size: 1.5rem;
+  border: 3px solid lightcoral;
+  border-radius: 35px 0 35px 0px;
+  background: transparent;
+  color: lightcoral;
+  font-weight: bold;
+  padding: 15px 25px;
+}
+
+.sharp-btn:hover{
+  cursor: pointer;
+  border-radius: 0 35px 0 35px;
+  border: 3px solid darkcyan;
+  color: darkcyan;
+}
+h1{
+	text-align: center;
+	font-size: 55px;
+	
+}
+	</style>
+</head>
+		<body>
+			
+			<h1>You entered incorrect data! Please retry your action again.</h1>
+			<div class="container">
+    <button class="transition-btn" ><a th:href="@{/students/register}">Naviagte to registration</a></button>
+    <button class="transition-btn"><a th:href="@{/students/login}">Navigate to login</a></button>
+  </div>
+		</body>
+		
+		
+</html>
